@@ -4,6 +4,8 @@ import random
 import time
 from time import sleep
 
+#VARIABLES
+
 board = [
     [".", ".", ".", ".", ".",".", ".", ".", ".", "."],
     ["🖑", ".", ".", ".", ".",".", ".", ".", ".", "."],
@@ -17,6 +19,7 @@ player_x, player_y = 1, 1
 npc_x = 3
 npc_y = 3
 
+#FUNCTIONS
 
 def interact_With_Enemy(player_hp, player_attack, enemy_hp, enemy_attack):
     while player_hp > 0 and enemy_hp > 0:
@@ -45,18 +48,6 @@ def interact_With_Enemy(player_hp, player_attack, enemy_hp, enemy_attack):
         print("You were defeated.")
     return player_hp, enemy_hp
 
-
-
-with open("player_enemy.txt") as file:
-    player_hp, player_attack, enemy_hp, enemy_attack = [int(x) for x in file.read().split()]
-
-
-
-with open("player_enemy.txt", "w") as file:
-    file.write(f"{player_hp} {player_attack} {100} {enemy_attack}")
-
-
-
 def interact_With_Tutorial():
     user_Input = input("Hey! Do you want to hear my story? It's very interesting, and you might get something out of it.\n")
 
@@ -70,6 +61,21 @@ def interact_With_Tutorial():
     else:
         print('Type yes or no')
 
+#TEXT FILE READING
+
+with open("player_enemy.txt") as file:
+    player_hp, player_attack, enemy_hp, enemy_attack = [int(x) for x in file.read().split()]
+
+with open("player_enemy.txt", "w") as file:
+    file.write(f"{player_hp} {player_attack} {100} {enemy_attack}")
+
+def read_shop_items():
+    with open("shop_items.txt", "r") as file:
+        
+        items = file.read()
+    return items
+
+#MAIN LOOP
 
 while True:
     os.system('cls')
