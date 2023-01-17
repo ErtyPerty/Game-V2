@@ -1,78 +1,4 @@
 import os
-import random
-import time
-
-
-player_data = open("player.txt","r+")
-
-content = player_data.readlines()
-
-
-grid = [['.', '.', '.'],
-        ['.', '.', '.'],
-        ['❑', '.', '.']]
-
-player_x = 1
-player_y = 1
-
-player_inventory = {}
-
-
-def print_grid():
-    for row in range(len(grid)):
-        for cell in range(len(grid[0])):
-            if row == player_y and cell == player_x:
-                print('⇩', end=' ')
-            else:
-                print(grid[row][cell], end=' ')
-        print()
-    print()
-    print("Gold : ")
-    print(content[0])
-
-
-print_grid()
-
-shop_inventory = {'sword': 50, 'armour': 100}
-
-def enter_shop():
-    global player_inventory
-    print("Welcome to the shop!")
-    print("Inventory:")
-    for item, price in shop_inventory.items():
-        print(f"{item}: {price} gold")
-    while True:
-        item = input("What would you like to buy? (type 'exit' to leave the shop)")
-        
-            
-
-
-#Main loop
-while True:
-    move = input("Move (WASD): ")
-    if move.upper() == 'W':
-        if player_y > 0:
-            player_y -= 1
-    elif move.upper() == 'A':
-        if player_x > 0:
-            player_x -= 1
-    elif move.upper() == 'S':
-        if player_y < len(grid) - 1:
-            player_y += 1
-    elif move.upper() == 'D':
-        if player_x < len(grid[0]) - 1:
-            player_x += 1
-
-  
-  #Position checks
-    if grid[player_y][player_x] == '❑':
-        enter_shop()
-
-  
-
-    os.system('cls')
-    print_grid()
-
 import sys
 import random
 import time
@@ -103,7 +29,7 @@ def read_shop_items():
         items = file.read()
     return items
 
-with open("player_gold.txt", "r") as file:
+with open("player_gold.txt", "r+") as file:
     player_gold = int(file.read())
 
 #VARIABLES PT2
@@ -137,8 +63,8 @@ def shop():
             if player_gold >= items[choice]:
                 player_gold -= items[choice]
                 player_inventory.append(choice)
-                with open("player_gold.txt", "w") as file:
-                    str(player_gold)
+                with open("player_gold.txt", "r+") as file:
+                    file.write(str(player_gold))
                 print("You bought the", choice + ".")
                 print("You have", player_gold, "gold left.")
                 print("You now have in inventory:", player_inventory)
@@ -147,6 +73,19 @@ def shop():
                 print("You don't have enough gold to buy that.")
         else:
             print("Invalid choice.")
+
+def interact_With_Tutorial():
+    user_Input = input("Hey! Do you want to hear my story? It's very interesting, and you might get something out of it.\n")
+
+    if user_Input.lower() == 'yes':
+        words = "Cant be asked to write this yet, come back later when I have finished writing"
+        for char in words:
+            sleep(0.05)
+            sys.stdout.write(char)
+    elif user_Input.lower() == 'no':
+        print("Oh ok, it's alright. Come back later when you are ready to hear my story.")
+    else:
+        print('Type yes or no')
 
 def interact_With_Enemy(player_hp, player_attack, enemy_hp, enemy_attack):
     while player_hp > 0 and enemy_hp > 0:
@@ -179,19 +118,6 @@ def interact_With_Enemy(player_hp, player_attack, enemy_hp, enemy_attack):
         print("You were defeated.")
     return player_hp, enemy_hp
 
-def interact_With_Tutorial():
-    user_Input = input("Hey! Do you want to hear my story? It's very interesting, and you might get something out of it.\n")
-
-    if user_Input.lower() == 'yes':
-        words = "Cant be asked to write this yet, come back later when I have finished writing"
-        for char in words:
-            sleep(0.05)
-            sys.stdout.write(char)
-    elif user_Input.lower() == 'no':
-        print("Oh ok, it's alright. Come back later when you are ready to hear my story.")
-    else:
-        print('Type yes or no')
-
 #MAIN LOOP
 
 while True:
@@ -217,23 +143,22 @@ while True:
                 new_board[i].append(board[i][j])
     for row in new_board:
         print(" ".join(row))
-    print("Enter a direction to move (WASD):")
-    direction = input()
+    direction = input("Enter a direction to move (WASD): ")
     if direction == 'w':
-            if player_x > 0:
+        if player_x > 0:
                 player_x -= 1
 
-    elif direction ==  "a":
-            if player_y > 0:
-                player_y -= 1
-            
-    elif direction ==  "s":
-            if player_x < len(board) - 1:
-                player_x += 1
-             
-    elif direction ==  "d":
-            if player_y < len(board[0]) - 1:
-                player_y += 1
-           
+    elif direction == "a":
+        if player_y > 0:
+            player_y -= 1
+                
+    elif direction == "s":
+        if player_x < len(board) - 1:
+            player_x += 1
+                
+    elif direction == "d":
+        if player_y < len(board[0]) - 1:
+            player_y += 1
     else:
-            print("WASD!")
+        print("WASD!")
+        
