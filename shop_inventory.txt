@@ -1,0 +1,2 @@
+quality_sword 50 
+quality_armour 50
